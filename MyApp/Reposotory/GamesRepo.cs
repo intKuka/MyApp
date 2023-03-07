@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyApp.Models;
+﻿using MyApp.Models;
 
 namespace MyApp.Reposotory
 {
@@ -9,7 +8,7 @@ namespace MyApp.Reposotory
 
         public IEnumerable<Game> GetGames() => Games;
 
-        public ActionResult<Game> GetGameById(Guid id) => Games.FirstOrDefault(x => x.Id == id);
+        public Game? GetById(Guid id) => Games.FirstOrDefault(x => x.Id == id);
 
 
     }
