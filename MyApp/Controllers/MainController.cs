@@ -24,33 +24,44 @@ namespace MyApp.Controllers
         [HttpGet]
         public IEnumerable<Game> Get() => gamesRepo.GetGames();
 
-        //GET /api/main/id
+        //GET /api/main/{id}
         [HttpGet("{id}")]
-        public ActionResult<Game> GetById(Guid id)
+        public IActionResult GetById(Guid id)
         {
             var game = gamesRepo.GetById(id);
             if (game == null) return NotFound();
-            return game;
+            return Ok(game);
         }
 
         //POST /api/main
         [HttpPost]
-        public ActionResult<Game> Create()
+        public IActionResult Post()
         {
-            var gameId = manager.CreateGame();
-            if(gameId == Guid.Empty) return BadRequest("Not enough available players");
-            return GetById(gameId);
+            var game = manager.CreateGame();
+            if(game == null) return BadRequest("Not enough available players");
+            return Ok(game);
         }
 
-        //PUT /api/main/id/finish
-        [HttpDelete("{id}/finish")]
-        public ActionResult<Game> Delete(Guid id)
+        //PUT /api/main/{id}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
         {
             var game = gamesRepo.GetById(id);
             if(game == null) return NotFound();
             manager.FinishGame(game);
-            if(game.IsFinished) gamesRepo.Games.Remove(game);
+            if(game.IsFinished) gamesRepo.Games.Remove(game);            
             return Ok($"Game {id} has deleted");
+
+        }
+
+        //PUT /api/main/{id}?cell={cell}
+        [HttpPatch("{id}")]
+        public IActionResult Patch(Guid id, short cell)
+        {
+            var game = gamesRepo.GetById(id);
+            if(game == null) return NotFound();
+            manager.MakeMove(cell, ref game);
+            return Ok(game);
         }
     }
 }

@@ -16,17 +16,41 @@ namespace MyApp.Services
             gamesRepository = gamesRepo;
         }
 
-        public Guid CreateGame()
+        public Game? CreateGame()
         {
             if (FindFreePlayers(playersRepository.Players))
             {
                 var game = new Game { Players = players };
                 gamesRepository.Games.Add(game);
                 game.Players[0].InGame = true;
+                game.CurrentMove = gameSides[0];
                 game.Players[1].InGame = true;
-                return game.Id;
+                return game;
             }
-            else return Guid.Empty;            
+            else return null;            
+        }
+
+        public void MakeMove(short index, ref Game game)
+        {
+            if (IsValidMove(index, ref game) == false) return;
+            if(game.Players[0].Side == game.CurrentMove)
+            {
+                game.FreeCells[index] = game.Players[0].Side;
+                game.CurrentMove = gameSides[1];
+            }
+            else
+            {
+                game.FreeCells[index] = game.Players[1].Side;
+                game.CurrentMove = gameSides[0];
+            }
+            return;
+        }
+
+        bool IsValidMove(short index, ref Game game)
+        {
+            if(index > 8 || index < 0) return false;
+            if (game.FreeCells[index] == null) return true;
+            else return false;
         }
 
         public void FinishGame(Game game)

@@ -25,3 +25,7 @@ D:\Visul Studio\MyApp\MyApp\obj\Debug\net6.0\refint\MyApp.dll
 D:\Visul Studio\MyApp\MyApp\obj\Debug\net6.0\MyApp.pdb
 D:\Visul Studio\MyApp\MyApp\obj\Debug\net6.0\MyApp.genruntimeconfig.cache
 D:\Visul Studio\MyApp\MyApp\obj\Debug\net6.0\ref\MyApp.dll
+D:\Visul Studio\MyApp\MyApp\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+D:\Visul Studio\MyApp\MyApp\bin\Debug\net6.0\System.Web.Http.dll
+D:\Visul Studio\MyApp\MyApp\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Visul Studio\MyApp\MyApp\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
