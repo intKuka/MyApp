@@ -6,11 +6,11 @@ using MyApp.Services;
 namespace MyApp.Controllers
 {
     [ApiController]
-    [Route("api/info")]
+    [Route("api/games")]
     public class GamesController : ControllerBase
     {
-        IGamesRepo gamesRepo;
-        GameManager manager;
+        readonly IGamesRepo gamesRepo;
+        readonly GameManager manager;
 
         public GamesController(IPlayersRepo playersRepo, IGamesRepo gamesRepo)
         {            
@@ -18,11 +18,11 @@ namespace MyApp.Controllers
             manager = new GameManager(playersRepo, gamesRepo);
         }
 
-        //GET /api/main
+        //GET /api/games
         [HttpGet]
         public IEnumerable<Game> Get() => gamesRepo.GetGames();
 
-        //GET /api/main/{id}
+        //GET /api/games/{id}
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
@@ -31,7 +31,7 @@ namespace MyApp.Controllers
             return Ok(game);
         }
 
-        //POST /api/main
+        //POST /api/games
         [HttpPost]
         public IActionResult Post()
         {
@@ -40,7 +40,7 @@ namespace MyApp.Controllers
             return Ok(game);
         }
 
-        //DELETE /api/main/{id}
+        //DELETE /api/games/{id}
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -52,7 +52,7 @@ namespace MyApp.Controllers
 
         }
 
-        //PUT /api/main/{id}?cell={cell}
+        //PATCH /api/games/{id}?cell={cell}
         [HttpPatch("{id}")]
         public IActionResult Patch(Guid id, short cell)
         {

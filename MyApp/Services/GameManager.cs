@@ -5,8 +5,8 @@ namespace MyApp.Services
 {
     public class GameManager
     {
-        IPlayersRepo playersRepository;
-        IGamesRepo gamesRepository;
+        readonly IPlayersRepo playersRepository;
+        readonly IGamesRepo gamesRepository;
         Player[] players;
         readonly char[] gameSides = { 'X', 'O' };
 
@@ -46,7 +46,8 @@ namespace MyApp.Services
             return;
         }
 
-        bool IsValidMove(short index, ref Game game)
+        //Check if player invokes outOfRange or tries to mark the a used cell 
+        static bool IsValidMove(short index, ref Game game)
         {
             if(index > 8 || index < 0) return false;
             if (game.FreeCells[index] == null) return true;

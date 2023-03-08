@@ -11,6 +11,10 @@ namespace MyApp.Reposotory
 
         public IEnumerable<Player> GetPlayers() => Players;
         public Player? GetById(Guid id) => Players.FirstOrDefault(p => p.Id == id);
+        public Player CreatePlayer()
+        {
+            return new Player();
+        }
 
     }
 }

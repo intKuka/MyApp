@@ -7,9 +7,6 @@ namespace MyApp.Reposotory
         public List<Player> Players { get; set; }
         public IEnumerable<Player> GetPlayers();
         public Player? GetById(Guid id);
-        public Player CreatePlayer()
-        {
-            return new Player();
-        }
+        public Player CreatePlayer();
     }
 }
