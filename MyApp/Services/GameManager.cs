@@ -57,6 +57,8 @@ namespace MyApp.Services
         {
             game.Players[0].InGame = false;
             game.Players[1].InGame = false;
+            game.Players[0].Side = '\0';
+            game.Players[1].Side = '\0';
             game.IsFinished = true;
         }
 
