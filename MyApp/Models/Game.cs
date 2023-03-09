@@ -3,7 +3,7 @@ using MyApp.Services;
 
 namespace MyApp.Models
 {
-    public class Game : Base
+    public class Game : BaseModel
     {
         public bool IsFinished { get; set; }
         public char?[] FreeCells { get; set; }

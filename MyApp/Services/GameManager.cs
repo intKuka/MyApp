@@ -6,22 +6,19 @@ namespace MyApp.Services
     public class GameManager
     {
         readonly IPlayersRepo playersRepository;
-        readonly IGamesRepo gamesRepository;
         Player[] players;
         readonly char[] gameSides = { 'X', 'O' };
 
-        public GameManager(IPlayersRepo playersRepo, IGamesRepo gamesRepo)
+        public GameManager(IPlayersRepo playersRepo)
         {
             playersRepository = playersRepo;
-            gamesRepository = gamesRepo;
         }
 
-        public Game? CreateGame()
+        public Game? GameSetting()
         {
             if (FindFreePlayers(playersRepository.Players))
             {
                 var game = new Game { Players = players };
-                gamesRepository.Games.Add(game);
                 game.Players[0].InGame = true;
                 game.CurrentMove = gameSides[0];
                 game.Players[1].InGame = true;
@@ -30,9 +27,9 @@ namespace MyApp.Services
             else return null;            
         }
 
-        public void MakeMove(short index, ref Game game)
+        public void MakeMark(short index, ref Game game)
         {
-            if (IsValidMove(index, ref game) == false) return;
+            if (IsValidMark(index, ref game) == false) return;
             if(game.Players[0].Side == game.CurrentMove)
             {
                 game.FreeCells[index] = game.Players[0].Side;
@@ -47,7 +44,7 @@ namespace MyApp.Services
         }
 
         //Check if player invokes outOfRange or tries to mark the a used cell 
-        static bool IsValidMove(short index, ref Game game)
+        static bool IsValidMark(short index, ref Game game)
         {
             if(index > 8 || index < 0) return false;
             if (game.FreeCells[index] == null) return true;

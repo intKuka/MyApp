@@ -1,6 +1,6 @@
 ﻿namespace MyApp.Models
 {
-    public class Player : Base
+    public class Player : BaseModel
     {
         public bool InGame { get; set; }
         public char Side { get; set; }

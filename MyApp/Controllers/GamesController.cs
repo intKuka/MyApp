@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MyApp.Data;
 using MyApp.Models;
 using MyApp.Reposotory;
 using MyApp.Services;
@@ -15,7 +16,7 @@ namespace MyApp.Controllers
         public GamesController(IPlayersRepo playersRepo, IGamesRepo gamesRepo)
         {            
             this.gamesRepo = gamesRepo;
-            manager = new GameManager(playersRepo, gamesRepo);
+            manager = new GameManager(playersRepo);
         }
 
         //GET /api/games
@@ -33,32 +34,33 @@ namespace MyApp.Controllers
 
         //POST /api/games
         [HttpPost]
-        public IActionResult Post()
+        public IActionResult PostGame()
         {
-            var game = manager.CreateGame();
+            var game = manager.GameSetting();
             if(game == null) return BadRequest("Not enough available players");
+            gamesRepo.AddGame(game);
             return Ok(game);
         }
 
         //DELETE /api/games/{id}
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public IActionResult DeleteGame(Guid id)
         {
             var game = gamesRepo.GetById(id);
             if(game == null) return NotFound();
             manager.FinishGame(game);
-            if(game.IsFinished) gamesRepo.Games.Remove(game);            
+            gamesRepo.RemoveGame(game);
             return Ok($"Game {id} has deleted");
-
         }
 
         //PATCH /api/games/{id}?cell={cell}
         [HttpPatch("{id}")]
-        public IActionResult Patch(Guid id, short cell)
+        public IActionResult MakeMove(Guid id, short cell)
         {
             var game = gamesRepo.GetById(id);
             if(game == null) return NotFound();
-            manager.MakeMove(cell, ref game);
+            manager.MakeMark(cell, ref game);
+            gamesRepo.UpdateGame();
             return Ok(game);
         }
     }
